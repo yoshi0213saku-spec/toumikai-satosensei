@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>佐藤先生の講話集 | 太極拳道海会</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- React & Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        :root { 
+            --brand-teal: #0d9488; 
+            --soft-bg: #fdfdfb; 
+        }
+        body { 
+            font-family: 'Noto Sans JP', sans-serif; 
+            background-color: var(--soft-bg); 
+            color: #1e293b; 
+            scroll-behavior: smooth;
+        }
+        .font-serif { font-family: 'Noto Serif JP', serif; }
+        
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(20px); 
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
+        }
+        .reveal.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+
+        .talk-card { 
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); 
+            border: 1px solid #e2e8f0; 
+            background: white; 
+            border-radius: 1.5rem;
+        }
+        .talk-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.05); 
+            border-color: var(--brand-teal); 
+        }
+
+        audio { 
+            width: 100%; 
+            height: 36px; 
+            border-radius: 99px; 
+            filter: drop-shadow(0 2px 4px rgba(13, 148, 136, 0.1));
+        }
+
+        /* カスタムスクロールバー */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #0d9488; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const BASE_ASSETS_URL = "https://raw.githubusercontent.com/yoshi0213saku-spec/my-images/main/";
+
+        function App() {
+            useEffect(() => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('active');
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            }, []);
+
+            const talkData = [
+                { date: "2026.02", title: "馬長勲先生の本にも" },
+                { date: "2025.12", title: "今年もあとひと月。" },
+                { date: "2025.10", title: "用意不要力" },
+                { date: "2025.08", title: "日常では何かをするのに" },
+                { date: "2025.06", title: "太極拳を語る本" },
+                { date: "2025.04", title: "新年度を迎え" },
+                { date: "2025.02", title: "立春、緩める身体" },
+                { date: "2024.12", title: "一年の締めくくり" },
+                { date: "2024.10", title: "フェスティバル御礼" },
+                { date: "2024.05", title: "お仲間をお迎えして" },
+                { date: "2024.04", title: "披露を目指して" },
+                { date: "2024.03", title: "足指の運動" },
+                { date: "2024.02", title: "杭のように只立つ" },
+                { date: "2024.01", title: "新年の吉報" }
+            ];
+
+            return (
+                <div className="antialiased text-left font-sans bg-[#fdfdfb]">
+                    {/* Header */}
+                    <header className="bg-white border-b border-teal-100 py-6 sticky top-0 z-50 shadow-sm">
+                        <div className="container mx-auto px-6 flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <svg width="32" height="32" viewBox="0 0 100 100" className="text-teal-800">
+                                    <circle cx="50" cy="50" r="48" stroke="currentColor" strokeWidth="5" fill="none"/>
+                                    <path d="M50,2 A48,48 0 0,1 50,98 A24,24 0 0,1 50,50 A24,24 0 0,0 50,2" fill="currentColor"/>
+                                </svg>
+                                <h1 className="text-xl md:text-2xl font-black font-serif text-slate-900 tracking-tighter">
+                                    佐藤先生の講話集
+                                    <span className="block text-[10px] font-sans font-bold text-teal-600 tracking-widest uppercase mt-1">Lecture Archives</span>
+                                </h1>
+                            </div>
+                            <div className="hidden md:block text-[10px] font-bold text-slate-400 tracking-widest uppercase italic">
+                                For Members Only
+                            </div>
+                        </div>
+                    </header>
+
+                    <main>
+                        {/* Instructor Intro Section */}
+                        <section className="py-16 md:py-24 bg-gradient-to-b from-white to-slate-50">
+                            <div className="container mx-auto px-6 max-w-4xl">
+                                <div className="bg-white rounded-[3rem] p-8 md:p-16 shadow-xl border border-slate-200 reveal relative overflow-hidden">
+                                    <div className="absolute top-0 left-0 w-full h-2 bg-teal-600"></div>
+                                    <div className="flex flex-col md:flex-row items-center gap-10">
+                                        <div className="flex-1 text-center md:text-left">
+                                            <div className="mb-6">
+                                                <span className="text-[11px] font-black text-teal-600 uppercase tracking-widest mb-2 block">Instructor Profile</span>
+                                                <h3 className="text-3xl md:text-5xl font-black font-serif text-slate-900 tracking-tighter">佐藤 光代 <span className="text-xl text-slate-400 ml-2 font-serif">先生</span></h3>
+                                            </div>
+                                            <p className="text-slate-700 leading-loose mb-8 font-medium">
+                                                「太極拳道海会（とうみかい）」を導く佐藤先生。その温かで深い言葉は、技術としての太極拳を超え、私たちの生き方そのものを整えてくれます。
+                                                こちらでは、先生がこれまでにお話しされた貴重な講話を音声データとしてまとめています。
+                                            </p>
+                                            <div className="space-y-4 pt-6 border-t border-slate-100">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-2 h-6 bg-teal-600 rounded-full"></div>
+                                                    <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Introduction Audio (AI Voice Guide)</p>
+                                                </div>
+                                                <audio controls src={`${BASE_ASSETS_URL}talk-sato01.mp3`}></audio>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Archives Grid */}
+                        <section className="py-16 md:py-24 bg-white">
+                            <div className="container mx-auto px-6 max-w-7xl">
+                                <div className="text-center mb-16">
+                                    <h2 className="text-2xl md:text-4xl font-black font-serif text-slate-900 mb-6 tracking-widest">月例講話アーカイブ集</h2>
+                                    <div className="w-16 h-1 bg-teal-600 mx-auto rounded-full mb-6"></div>
+                                    <p className="text-slate-500 max-w-xl mx-auto text-sm leading-relaxed font-medium">
+                                        2024年1月からの記録を掲載しています。<br />
+                                        日々の自主練の合間や、静かに自分と向き合いたい時にお聴きください。
+                                    </p>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
+                                    {talkData.map((t, idx) => (
+                                        <div key={idx} className="talk-card p-8 flex flex-col justify-between group">
+                                            <div>
+                                                <div className="flex justify-between items-center mb-6">
+                                                    <span className="px-3 py-1 bg-teal-50 text-teal-700 rounded-lg text-[10px] font-black tracking-widest">{t.date}</span>
+                                                    <div className="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center text-slate-200 group-hover:bg-teal-600 group-hover:text-white group-hover:border-teal-600 transition-all duration-300">
+                                                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.5 7v6l5-3-5-3z"/></svg>
+                                                    </div>
+                                                </div>
+                                                <h4 className="font-black text-slate-900 text-xl mb-8 font-serif leading-tight group-hover:text-teal-800 transition-colors">{t.title}</h4>
+                                            </div>
+                                            <audio controls src={`${BASE_ASSETS_URL}talk${t.date.replace('.', '')}.mp3`}></audio>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+
+                    {/* Simple Footer */}
+                    <footer className="py-16 bg-slate-50 border-t border-slate-200 text-center">
+                        <div className="container mx-auto px-6">
+                            <div className="flex flex-col items-center gap-6 mb-8">
+                                <div className="flex items-center gap-3">
+                                    <svg width="24" height="24" viewBox="0 0 100 100" className="text-teal-800 opacity-60"><circle cx="50" cy="50" r="48" stroke="currentColor" strokeWidth="6" fill="none"/><path d="M50,2 a48,48 0 0,1 50,98 a24,24 0 0,1 50,50 a24,24 0 0,0 50,2" fill="currentColor"/></svg>
+                                    <span className="text-lg font-black font-serif uppercase tracking-widest text-slate-900">Tai Chi <span className="text-teal-700">TOUMIKAI</span></span>
+                                </div>
+                            </div>
+                            <p className="text-[10px] tracking-[0.4em] text-slate-400 uppercase font-bold">© 太極拳道海会 - 佐藤先生講話アーカイブ</p>
+                            <p className="text-[9px] text-slate-300 mt-2">※当サイトの音声資料の無断転載・配布を禁じます。</p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
