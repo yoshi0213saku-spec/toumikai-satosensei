@@ -68,7 +68,8 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        const BASE_ASSETS_URL = "https://raw.githubusercontent.com/yoshi0213saku-spec/my-images/main/";
+        // アセットのベースURL（指定されたリポジトリ）
+        const BASE_ASSETS_URL = "https://raw.githubusercontent.com/yoshi0213saku-spec/toumikai-satosensei/main/";
 
         function App() {
             const [visitorCount, setVisitorCount] = useState(0);
@@ -82,26 +83,27 @@
 
                 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
                 
-                // Set initial visitor count (mock)
-                setVisitorCount(Math.floor(Math.random() * 20) + 1442);
+                // 訪問者数の初期設定
+                setVisitorCount(Math.floor(Math.random() * 20) + 1482);
             }, []);
 
+            // 講話データ
             const talkData = [
-                { date: "2026.04", title: "太極拳を始める為に重要な準備" },
-                { date: "2026.02", title: "馬長勲先生の本にも" },
-                { date: "2025.12", title: "今年もあとひと月。" },
-                { date: "2025.10", title: "用意不要力" },
-                { date: "2025.08", title: "日常では何かをするのに" },
-                { date: "2025.06", title: "太極拳を語る本" },
-                { date: "2025.04", title: "新年度を迎え" },
-                { date: "2025.02", title: "立春、緩める身体" },
-                { date: "2024.12", title: "一年の締めくくり" },
-                { date: "2024.10", title: "フェスティバル御礼" },
-                { date: "2024.05", title: "お仲間をお迎えして" },
-                { date: "2024.04", title: "披露を目指して" },
-                { date: "2024.03", title: "足指の運動" },
-                { date: "2024.02", title: "杭のように只立つ" },
-                { date: "2024.01", title: "新年の吉報" }
+                { date: "2026.04", title: "太極拳を始める為に重要な準備", fileName: "talk202604.mp3" },
+                { date: "2026.02", title: "馬長勲先生の本にも", fileName: "talk202602.mp3" },
+                { date: "2025.12", title: "今年もあとひと月。", fileName: "talk202512.mp3" },
+                { date: "2025.10", title: "用意不要力", fileName: "talk202510.mp3" },
+                { date: "2025.08", title: "日常では何かをするのに", fileName: "talk202508.mp3" },
+                { date: "2025.06", title: "太極拳を語る本", fileName: "talk202506.mp3" },
+                { date: "2025.04", title: "新年度を迎え", fileName: "talk202504.mp3" },
+                { date: "2025.02", title: "立春、緩める身体", fileName: "talk202502.mp3" },
+                { date: "2024.12", title: "一年の締めくくり", fileName: "talk202412.mp3" },
+                { date: "2024.10", title: "フェスティバル御礼", fileName: "talk202410.mp3" },
+                { date: "2024.05", title: "お仲間をお迎えして", fileName: "talk202405.mp3" },
+                { date: "2024.04", title: "披露を目指して", fileName: "talk202404.mp3" },
+                { date: "2024.03", title: "足指の運動", fileName: "talk202403.mp3" },
+                { date: "2024.02", title: "杭のように只立つ", fileName: "talk202402.mp3" },
+                { date: "2024.01", title: "新年の吉報", fileName: "talk202401.mp3" }
             ];
 
             return (
@@ -115,6 +117,8 @@
                                     <svg width="42" height="42" viewBox="0 0 100 100" className="text-teal-800">
                                         <circle cx="50" cy="50" r="48" stroke="currentColor" strokeWidth="5" fill="none"/>
                                         <path d="M50,2 A48,48 0 0,1 50,98 A24,24 0 0,1 50,50 A24,24 0 0,0 50,2" fill="currentColor"/>
+                                        <circle cx="50" cy="26" r="6" fill="white"/>
+                                        <circle cx="50" cy="74" r="6" fill="currentColor"/>
                                     </svg>
                                 </div>
                                 <div>
@@ -153,7 +157,8 @@
                                                     <div className="w-2 h-6 bg-teal-600 rounded-full"></div>
                                                     <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Introduction Audio (AI Voice Guide)</p>
                                                 </div>
-                                                <audio controls src={`${BASE_ASSETS_URL}talk-sato01.mp3`}></audio>
+                                                {/* 指定された matome.mp3 を反映 */}
+                                                <audio controls src={`${BASE_ASSETS_URL}matome.mp3`}></audio>
                                             </div>
                                         </div>
                                     </div>
@@ -167,7 +172,7 @@
                                 <div className="text-center mb-16">
                                     <h2 className="text-2xl md:text-4xl font-black font-serif text-slate-900 mb-6 tracking-widest">月例講話アーカイブ集</h2>
                                     <div className="w-16 h-1 bg-teal-600 mx-auto rounded-full mb-6"></div>
-                                    <p className="text-slate-500 max-w-xl mx-auto text-sm leading-relaxed font-medium">
+                                    <p className="text-slate-500 max-xl mx-auto text-sm leading-relaxed font-medium">
                                         2024年1月からの記録を掲載しています。<br />
                                         日々の自主練の合間や、静かに自分と向き合いたい時にお聴きください。
                                     </p>
@@ -185,7 +190,7 @@
                                                 </div>
                                                 <h4 className="font-black text-slate-900 text-xl mb-8 font-serif leading-tight group-hover:text-teal-800 transition-colors">{t.title}</h4>
                                             </div>
-                                            <audio controls src={`${BASE_ASSETS_URL}talk${t.date.replace('.', '')}.mp3`}></audio>
+                                            <audio controls src={`${BASE_ASSETS_URL}${t.fileName}`}></audio>
                                         </div>
                                     ))}
                                 </div>
@@ -226,6 +231,8 @@
                                     <svg width="24" height="24" viewBox="0 0 100 100" className="text-teal-800 opacity-60">
                                         <circle cx="50" cy="50" r="48" stroke="currentColor" strokeWidth="5" fill="none"/>
                                         <path d="M50,2 A48,48 0 0,1 50,98 A24,24 0 0,1 50,50 A24,24 0 0,0 50,2" fill="currentColor"/>
+                                        <circle cx="50" cy="26" r="6" fill="white"/>
+                                        <circle cx="50" cy="74" r="6" fill="currentColor"/>
                                     </svg>
                                     <span className="text-lg font-black font-serif uppercase tracking-widest text-slate-900">Tai Chi <span className="text-teal-700">TOUMIKAI</span></span>
                                 </div>
